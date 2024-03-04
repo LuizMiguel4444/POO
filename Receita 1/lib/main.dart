@@ -4,13 +4,15 @@ void main() {
   MaterialApp app = MaterialApp(
     theme: ThemeData(primarySwatch: Colors.lightBlue),
     home: Scaffold(
-      appBar: AppBar(title: Text(
-        "My First App",
-        style: TextStyle(
-          fontSize: 30.0,
-          fontWeight: FontWeight.normal,
-        )
-      )),
+      appBar: AppBar(
+        title: Text(
+          "My First App",
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
