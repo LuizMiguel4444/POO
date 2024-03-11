@@ -88,6 +88,8 @@ class NewLittleBody extends StatelessWidget {
             Text("Sapporo Premiume - Sour Ale - 54 ibu"),
             SizedBox(height: 100),
             Text("Duvel - Pilsner - 82 ibu"),
+            SizedBox(height: 100),
+            Text("Matuta - Umburana - 30 reais"),
           ],
         ),
       ),
@@ -107,17 +109,13 @@ class MyNewNavBar extends StatelessWidget {
 
   MyNewNavBar({required this.items});
 
-  void touchedButton(int index) {
-    print("Touched: $index");
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      onTap: touchedButton,
+      type: BottomNavigationBarType.fixed,
       items: items
           .map((item) => BottomNavigationBarItem(icon: item.icon, label: item.label))
-          .toList(),
+        .toList(),
     );
   }
 }
