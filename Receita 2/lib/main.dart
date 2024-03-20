@@ -35,22 +35,15 @@ class MyHomePage extends StatelessWidget {
             label: "Music",
           ),
           NavBarItem(
-            icon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 236, 89, 187)),
+            icon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 255, 0, 0)),
             label: "Calendar",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.camera, color: Color.fromARGB(255, 255, 0, 0)),
-            label: "Cam",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.email, color: Color.fromARGB(255, 255, 255, 255)),
-            label: "Email",
           ),
           NavBarItem(
             icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 255, 230, 0)),
             label: "Car",
           ),
         ],
+        backgroundColor: Color.fromARGB(255, 60, 60, 60),
       ),
     );
   }
@@ -79,17 +72,35 @@ class NewLittleBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(100),
+        padding: const EdgeInsets.all(50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text("La Fin Du Monde - Bock - 65 ibu"),
-            SizedBox(height: 100),
-            Text("Sapporo Premiume - Sour Ale - 54 ibu"),
-            SizedBox(height: 100),
-            Text("Duvel - Pilsner - 82 ibu"),
-            SizedBox(height: 100),
-            Text("Matuta - Umburana - 30 reais"),
+          children: [
+            Expanded(
+              child: ListView(
+                children: const [
+                  Text(
+                    "La Fin Du Monde - Bock - 65 ibu",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Sapporo Premiume - Sour Ale - 54 ibu",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Duvel - Pilsner - 82 ibu",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Matuta - Umburana - 30 reais",
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -106,13 +117,15 @@ class NavBarItem {
 
 class MyNewNavBar extends StatelessWidget {
   final List<NavBarItem> items;
+  final Color backgroundColor;
 
-  MyNewNavBar({required this.items});
+  MyNewNavBar({required this.items, required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
+      backgroundColor: backgroundColor,
       items: items
           .map((item) => BottomNavigationBarItem(icon: item.icon, label: item.label))
         .toList(),
