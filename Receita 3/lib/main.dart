@@ -25,28 +25,9 @@ class MyHomePage extends StatelessWidget {
       appBar: MyNewAppBar(),
       body: NewDataBody(),
       bottomNavigationBar: MyNewNavBar(
-        items: [
-          NavBarItem(
-            icon: Icon(Icons.phone, color: Color.fromARGB(255, 0, 162, 255)),
-            label: "Phone",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 236, 89, 187)),
-            label: "Calendar",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.camera, color: Color.fromARGB(255, 255, 0, 0)),
-            label: "Cam",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.email, color: Color.fromARGB(255, 255, 255, 255)),
-            label: "Email",
-          ),
-          NavBarItem(
-            icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 255, 230, 0)),
-            label: "Car",
-          ),
-        ],
+        icons: [Icons.phone, Icons.calendar_today, Icons.camera, Icons.email, Icons.shopping_cart,],
+        iconColors: [Color.fromARGB(255, 0, 162, 255), Color.fromARGB(255, 236, 89, 187), Color.fromARGB(255, 255, 0, 0), Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 255, 230, 0)],
+        labels: ["Phone", "Calendar", "Cam", "Email", "Car",],
       ),
     );
   }
@@ -63,6 +44,7 @@ class MyNewAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Color.fromARGB(255, 255, 155, 0),
       actions: [
         PopupMenuButton<Color>(
+          icon: Icon(Icons.more_vert, color: Colors.black),
           itemBuilder: (context) => [
             PopupMenuItem<Color>(
               child: Text("Japonês"),
@@ -130,26 +112,25 @@ class NewDataBody extends StatelessWidget {
   }
 }
 
-
-class NavBarItem {
-  Icon icon;
-  String label;
-
-  NavBarItem({required this.icon, required this.label});
-}
-
 class MyNewNavBar extends StatelessWidget {
-  final List<NavBarItem> items;
+  final List<IconData> icons;
+  final List<Color> iconColors;
+  final List<String> labels;
 
-  MyNewNavBar({required this.items});
+  MyNewNavBar({required this.icons, required this.iconColors, required this.labels});
 
   @override
   Widget build(BuildContext context) {
+    assert(icons.length == labels.length && icons.length == iconColors.length);
+    
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: items
-        .map((item) => BottomNavigationBarItem(icon: item.icon, label: item.label))
-      .toList(),
+      items: List.generate(icons.length, (index) {
+        return BottomNavigationBarItem(
+          icon: Icon(icons[index], color: iconColors[index]),
+          label: labels[index],
+        );
+      }),
     );
   }
 }
