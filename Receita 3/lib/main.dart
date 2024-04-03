@@ -79,28 +79,61 @@ class NewDataBody extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(25),
             child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: Color.fromARGB(255, 255, 155, 0), width: 3,
+                  color: Color.fromARGB(255, 255, 155, 0),
+                  width: 3,
                 ),
                 boxShadow: [
-                  BoxShadow(color: Colors.grey.withOpacity(0.20),),
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.20),
+                  ),
                 ],
               ),
               child: DataTable(
-                columnSpacing: 200,
-                horizontalMargin: 150,
-                columns: const <DataColumn>[
-                  DataColumn(label: Text('Name', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center,),),
-                  DataColumn(label: Text('Style', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center,),),
-                  DataColumn(label: Text('IBU', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center,),),
+                columnSpacing: MediaQuery.of(context).size.width * 0.2,
+                columns: <DataColumn>[
+                  DataColumn(
+                    label: Expanded(
+                      child: Center(
+                        child: Text('Name', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,), textAlign: TextAlign.center,),
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Expanded(
+                      child: Center(
+                        child: Text('Style', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,), textAlign: TextAlign.center,),
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Expanded(
+                      child: Center(
+                        child: Text('IBU', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,), textAlign: TextAlign.center,),
+                      ),
+                    ),
+                  ),
                 ],
                 rows: cervejas.map((cerveja) {
                   return DataRow(cells: [
-                    DataCell(Text(cerveja.name,textAlign: TextAlign.center,),),
-                    DataCell(Text(cerveja.style, textAlign: TextAlign.center,),),
-                    DataCell(Text(cerveja.ibu.toString(), textAlign: TextAlign.center,),),
+                    DataCell(
+                      Center(
+                        child: Text(cerveja.name, textAlign: TextAlign.center,),
+                      ),
+                    ),
+                    DataCell(
+                      Center(
+                        child: Text(cerveja.style, textAlign: TextAlign.center,),
+                      ),
+                    ),
+                    DataCell(
+                      Center(
+                        child: Text(cerveja.ibu.toString(),textAlign: TextAlign.center,),
+                      ),
+                    ),
                   ]);
                 }).toList(),
               ),
