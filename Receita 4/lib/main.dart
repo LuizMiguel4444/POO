@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 var dataObjects = [
   {"modelo": "Ferrari 458 Italia", "tipo": "Sports Car", "cavalos": "562"},
@@ -37,21 +38,43 @@ void main() {
   runApp(MyApp());
 }
 
+class ThemeController extends GetxController {
+  var isDarkMode = false.obs;
+
+  void toggleTheme() {
+    isDarkMode.toggle();
+    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
+  }
+}
+
 class MyApp extends StatelessWidget {
+  final ThemeController _themeController = Get.put(ThemeController());
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Receita 4 By Luiz",
-      theme: ThemeData.dark().copyWith(
-        useMaterial3: true,
+      theme: ThemeData.light().copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.indigo,
+          brightness: Brightness.light,
+        ),
       ),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.green,
+          brightness: Brightness.light,
+        ),
+      ),
+      themeMode: _themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,12 +93,11 @@ class MyHomePage extends StatelessWidget {
         ],
         iconColors: [
           Color.fromARGB(255, 255, 0, 0),
-          Color.fromARGB(255, 10, 200, 25),
+          Theme.of(context).colorScheme.primary,
           Color.fromARGB(255, 255, 230, 0)
         ],
         labels: ["Fárois", "Posto", "Carro"]
       ),
-      backgroundColor: Color.fromARGB(255, 55, 55, 55),
     );
   }
 }
@@ -86,12 +108,19 @@ class MyNewAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Possantes", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),),
+      title: Text("Possantes", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
       centerTitle: true,
-      backgroundColor: Color.fromARGB(255, 10, 130, 20),
       actions: [
+        Obx(() => IconButton(
+          icon: Icon(
+            Get.find<ThemeController>().isDarkMode.value ? Icons.light_mode : Icons.dark_mode,
+          ),
+          onPressed: () {
+            Get.find<ThemeController>().toggleTheme();
+          },
+        )),
         PopupMenuButton<Color>(
-          icon: Icon(Icons.more_vert, color: Colors.white),
+          icon: Icon(Icons.more_vert),
           itemBuilder: (context) => [
             PopupMenuItem<Color>(
               child: Text("Gordin Delícia"),
@@ -106,7 +135,6 @@ class MyNewAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Text("Neymar"),
             ),
           ],
-          onSelected: (color) {},
         ),
       ],
     );
@@ -186,8 +214,8 @@ class MyTileWidget extends StatelessWidget {
             itemCount: objects.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: buildContainers(objects[index]),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: buildContainers(context, objects[index]),
               );
             },
           ),
@@ -196,17 +224,17 @@ class MyTileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildContainers(Map<String, dynamic> obj) {
+  Widget buildContainers(BuildContext context, Map<String, dynamic> obj) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Color.fromARGB(255, 10, 130, 20),
-          width: 2,
+          color: Theme.of(context).colorScheme.primary,
+          width: 3,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.30),
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.withOpacity(0.40) : Colors.grey.withOpacity(0.90),
           ),
         ],
       ),
@@ -256,7 +284,6 @@ class MyNewNavBar extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: 1,
-      backgroundColor: Color.fromARGB(255, 40, 40, 40),
       items: List.generate(icons.length, (index) {
         return BottomNavigationBarItem(
           icon: Icon(icons[index], color: iconColors[index]),
